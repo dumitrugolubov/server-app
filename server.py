@@ -24,32 +24,28 @@ def home():
 def chat():
     """Обработка чата с GPT"""
     try:
-        # Получаем данные из запроса
         data = request.json
-        print("Received data:", data)  # Логируем входящие данные
+        print("Received data:", data)
 
-        # Проверяем, что данные содержат ключ 'messages'
         if not data or 'messages' not in data:
             return jsonify({"error": "Invalid request format. 'messages' is required."}), 400
 
-        # Отправляем запрос в OpenAI API
         response = openai.ChatCompletion.create(
-            model="gpt-4",  # Используем модель GPT-4
+            model="gpt-4",
             messages=data['messages']
         )
-
-        # Логируем полный ответ от OpenAI API
         print("Raw OpenAI response:", response)
 
-        # Извлекаем содержимое ответа
+        # Возвращаем только нужное клиенту
         if 'choices' in response and len(response['choices']) > 0:
             message = response['choices'][0]['message']['content']
             return jsonify({"message": message})
         else:
             return jsonify({"error": "Invalid OpenAI response format."}), 500
     except Exception as e:
-        print("Error:", str(e))  # Логируем ошибку
+        print("Error:", str(e))
         return jsonify({"error": str(e)}), 500
+
 
 @app.route('/api/upload', methods=['POST'])
 def upload():
