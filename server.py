@@ -31,7 +31,7 @@ def chat():
             return jsonify({"error": "Invalid request format. 'messages' is required."}), 400
 
         response = openai.ChatCompletion.create(
-            model="gpt-4",
+            model="gpt-o1-preview",
             messages=data['messages']
         )
         print("Raw OpenAI response:", response)
