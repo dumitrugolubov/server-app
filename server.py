@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Импортируем CORS
 import openai
 from dotenv import load_dotenv
 import os
@@ -6,13 +7,13 @@ from PyPDF2 import PdfReader
 from PIL import Image
 import io
 
-# Загрузка переменных окружения
+# Загружаем API-ключ из .env
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
+CORS(app)  # Разрешаем CORS для всех маршрутов
 
-# Новый маршрут для корневого URL
 @app.route('/')
 def home():
     return "Welcome to your GPT-powered server! 🚀", 200
