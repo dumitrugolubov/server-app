@@ -6,13 +6,16 @@ from PyPDF2 import PdfReader
 from PIL import Image
 import io
 
-# Загрузка переменных окружения из файла .env
+# Загрузка переменных окружения
 load_dotenv()
-
-# Получение API ключа из переменной окружения
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
+
+# Новый маршрут для корневого URL
+@app.route('/')
+def home():
+    return "Welcome to your GPT-powered server! 🚀", 200
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
